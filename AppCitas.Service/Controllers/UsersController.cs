@@ -18,14 +18,15 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    //Get api/Users
+    public ActionResult<IEnumerable<AppUser>> GetUsers()
     {
-        return await _context.Users.ToListAsync();
+        return _context.Users.ToList();
     }
-
+    //GET api/users/id
     [HttpGet("{id}")]
-    public async Task<ActionResult<AppUser>> GetUserById(int id)
+    public  ActionResult<AppUser> GetUserById(int id)
     {
-        return await _context.Users.FindAsync(id);
+        return _context.Users.Find(id);
     }
 }
