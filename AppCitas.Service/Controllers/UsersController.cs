@@ -6,9 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppCitas.Service.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UsersController : ControllerBase
+public class UsersController : BaseApiControler
 {
     private readonly DataContext _context;
 
