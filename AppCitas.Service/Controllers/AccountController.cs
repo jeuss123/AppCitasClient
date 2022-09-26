@@ -1,6 +1,7 @@
 ﻿using AppCitas.Service.Data;
 using AppCitas.Service.DTOs;
 using AppCitas.Service.Entities;
+using AppCitas.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -11,13 +12,16 @@ namespace AppCitas.Service.Controllers;
 public class AccountController : BaseApiControler
 {
     private readonly DataContext _context;
+    private readonly ITokenService _tokenService;
 
-    public AccountController(DataContext context)
+    public AccountController(DataContext context, ITokenService tokenService)
     {
         _context = context;
+        _tokenService = tokenService;
     }
+    
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
     {
         if (await UserExists(registerDto.Username))
             return BadRequest("Username is alredy taken!");
@@ -32,10 +36,15 @@ public class AccountController : BaseApiControler
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return user;
+        return new UserDto
+        {
+            UserName = user.UserName,
+            Token = _tokenService.CreateToken(user)
+        };
     }
+
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+    public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
     {
         var user = await _context.Users
             .SingleOrDefaultAsync(x => x.UserName == loginDto.Username);
@@ -47,7 +56,11 @@ public class AccountController : BaseApiControler
             if (computedHash[i] != user.PasswordHash[i])
                 return Unauthorized("Invalid Username or password");
         }
-        return user;
+        return new UserDto
+        {
+            UserName = user.UserName,
+            Token = _tokenService.CreateToken(user)
+        };
     }
 
     #region Private methods
