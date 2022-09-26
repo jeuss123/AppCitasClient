@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace AppCitas.Service.Controllers;
 
-public class UsersController : BaseApiControler
+public class UsersController : BaseApiController
 {
     private readonly DataContext _context;
 
@@ -25,7 +25,7 @@ public class UsersController : BaseApiControler
 
     [HttpGet("{id}")]
     [Authorize]
-    public  async Task<ActionResult<AppUser>> GetUserById(int id)
+    public async Task<ActionResult<AppUser>> GetUserById(int id)
     {
         return await _context.Users.FindAsync(id);
     }

@@ -1,3 +1,4 @@
+using System.Text;
 using AppCitas.Service.Data;
 using AppCitas.Service.Extensions;
 using AppCitas.Service.Interfaces;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 namespace AppCitas;
 
@@ -25,7 +25,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddAplicationServices(_config);
+        services.AddApplicationServices(_config);
         services.AddControllers();
         services.AddCors();
         services.AddIdentityServices(_config);
@@ -45,9 +45,9 @@ public class Startup
 
         app.UseRouting();
 
-        app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("/swager/v1/swagger.json", "WebAPI v1")); 
-        
-        app.UseAuthentication(); 
+        app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 

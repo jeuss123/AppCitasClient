@@ -1,6 +1,5 @@
 ﻿namespace AppCitas.Service.DTOs;
 
-
 public class LoginDto
 {
     public string Username { get; set; }
