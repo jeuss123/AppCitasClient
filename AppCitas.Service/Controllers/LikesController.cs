@@ -5,6 +5,7 @@ using AppCitas.Service.Helpers;
 using AppCitas.Service.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace AppCitas.Service.Controllers;
 

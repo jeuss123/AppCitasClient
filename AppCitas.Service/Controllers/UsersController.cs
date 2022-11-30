@@ -5,8 +5,8 @@ using AppCitas.Service.Helpers;
 using AppCitas.Service.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 namespace AppCitas.Service.Controllers;
 
 [Authorize]
@@ -42,6 +42,7 @@ public class UsersController : BaseApiController
 
         return Ok(users);
     }
+   
 
     [HttpGet("{username}", Name = "GetUser")]
     public async Task<ActionResult<MemberDto>> GetUserByUsername(string username)
