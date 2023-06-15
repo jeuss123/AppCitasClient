@@ -1,6 +1,7 @@
 ﻿using AppCitas.Service.Data;
 using AppCitas.Service.Entities;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
@@ -54,14 +55,14 @@ namespace AppCitas.UnitTests
                 using (var scope = sp.CreateScope())
                 {
                     var context = sp.GetRequiredService<DataContext>();
-                    // var userManager = sp.GetRequiredService<UserManager<AppUser>>();
-                    // var roleManager = sp.GetRequiredService<RoleManager<AppRole>>();
+                    var userManager = sp.GetRequiredService<UserManager<AppUser>>();
+                    var roleManager = sp.GetRequiredService<RoleManager<AppRole>>();
 
                     try
                     {
                         await context.Database.MigrateAsync();
-                        // await Seed.SeedUsers(userManager, roleManager);
-                        await Seed.SeedUsers(context);
+                        await Seed.SeedUsers(userManager, roleManager);
+                        // await Seed.SeedUsers(context);
                     }
                     catch (Exception ex)
                     {
@@ -75,8 +76,8 @@ namespace AppCitas.UnitTests
         private void __loadTestData(DataContext appDbContext)
         {
             appDbContext.Database.EnsureCreated();
-            // if (!LoadTestData<AppRole>.Run(appDbContext, "RoleSeedData.json")) throw new Exception("Unable to seed roles data.");
-            if (!LoadTestData<AppUser>.Run(appDbContext, "UserSeedData.json")) throw new Exception("Unable to seed users data.");
+            if (!LoadTestData<AppRole>.Run(appDbContext, "RoleSeedData.json")) throw new Exception("Unable to seed roles data.");
+            //if (!LoadTestData<AppUser>.Run(appDbContext, "UserSeedData.json")) throw new Exception("Unable to seed users data.");
         }
     }
 
